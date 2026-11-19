@@ -1,0 +1,25 @@
+
+using UnityEngine;
+
+public class EconomyManager : MonoBehaviour
+{
+    public int money = 500;
+
+    public bool Buy(int price)
+    {
+        if (price <= 0 || money < price)
+            return false;
+
+        money -= price;
+        Debug.Log("Money left: " + money);
+        return true;
+    }
+
+    public void Earn(int amount)
+    {
+        if (amount <= 0) return;
+
+        money += amount;
+        Debug.Log("Money earned! Total: " + money);
+    }
+}
