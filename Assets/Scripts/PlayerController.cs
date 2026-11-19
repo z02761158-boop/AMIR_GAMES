@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     public float moveSpeed = 5f;
     public float gravity = -15f;
+    public MobileJoystick joystick;
 
     private CharacterController controller;
     private Vector3 velocity;
@@ -17,10 +18,23 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        float x = Input.GetAxis("Horizontal");
-        float z = Input.GetAxis("Vertical");
+        float x = 0f;
+        float z = 0f;
 
-        Vector3 move = transform.right * x + transform.forward * z;
+        if (joystick != null)
+        {
+            x = joystick.Direction.x;
+            z = joystick.Direction.y;
+        }
+        else
+        {
+            x = Input.GetAxis("Horizontal");
+            z = Input.GetAxis("Vertical");
+        }
+
+        Vector3 move = transform.right * x
+                     + transform.forward * z;
+
         controller.Move(move * moveSpeed * Time.deltaTime);
 
         if (controller.isGrounded && velocity.y < 0)
@@ -30,4 +44,3 @@ public class PlayerController : MonoBehaviour
         controller.Move(velocity * Time.deltaTime);
     }
 }
-
